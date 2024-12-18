@@ -8,7 +8,7 @@ async def root():
 
 @app.get("/version")
 async def version():
-    return {"version": "4.0.0"}
+    return {"version": "5.0.0"}
 
 import uvicorn
 
