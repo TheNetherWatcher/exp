@@ -10,22 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code
+      # Step 1: Check out the repository
       - name: Check out repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up SSH to connect to your server
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      # Step 2: Install sshpass
+      - name: Install sshpass
+        run: sudo apt-get install sshpass
 
-      # Step 3: Deploy to the server
+      # Step 3: Deploy application
       - name: Deploy application
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          cd /path/to/your/repo
-          
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd $(pwd)  
           git pull origin main
-          sudo systemctl restart your-fastapi.service
+          chmod +x deploy.sh
+          ./deploy.sh
           EOF
