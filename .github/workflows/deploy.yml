@@ -11,6 +11,4 @@ jobs:
     steps:
       - name: Send Webhook Trigger
         run: |
-          curl -X POST https://8d12-37-19-205-148.ngrok-free.app/webhook \
-          -H "Content-Type: application/json" \
-          -d '{}'
+          
