@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Navigate to the repository
+# Navigate to the repository directory
 REPO_DIR=$(dirname "$(realpath "$0")")
-cd "$REPO_DIR"
+cd "$REPO_DIR" || { echo "Failed to navigate to the repository directory"; exit 1; }
 
 # Pull the latest changes
 echo "Pulling latest changes from the repository..."
