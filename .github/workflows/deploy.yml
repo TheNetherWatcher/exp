@@ -25,6 +25,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
           cd /path/to/your/repo
+          
           git pull origin main
           sudo systemctl restart your-fastapi.service
           EOF
