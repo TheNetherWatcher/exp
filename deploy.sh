@@ -1,26 +1,20 @@
 #!/bin/bash
 
-# Get the directory of the current script
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-APP_NAME="main.py"  # Replace with your FastAPI entry point
-LOG_FILE="$SCRIPT_DIR/fastapi.log"  # Log file path relative to the script
+# Navigate to the repository
+REPO_DIR=$(dirname "$(realpath "$0")")
+cd "$REPO_DIR"
 
-echo "Stopping any existing instance of the FastAPI server..."
+# Pull the latest changes
+echo "Pulling latest changes from the repository..."
+git reset --hard  # Ensure no local changes cause conflicts
+git pull origin main
 
-# Find the process ID (PID) of the running server and kill it
-PIDS=$(ps aux | grep "$APP_NAME" | grep -v grep | awk '{print $2}')
-if [ -n "$PIDS" ]; then
-    echo "Found running server process(es): $PIDS"
-    kill -9 $PIDS
-    echo "Killed running process(es)."
-else
-    echo "No running server instance found."
-fi
+# Kill the old server process if running
+echo "Stopping the current running process (if any)..."
+pkill -f "python3 main.py" || echo "No running process found."
 
-echo "Starting a new instance of the FastAPI server with nohup..."
+# Start the server with nohup
+echo "Starting the server..."
+nohup python3 main.py > server.log 2>&1 &
 
-# Start a new instance using nohup
-nohup python3 "$SCRIPT_DIR/$APP_NAME" > "$LOG_FILE" 2>&1 &
-
-echo "FastAPI server started successfully."
-echo "Logs can be found in $LOG_FILE."
+echo "Deployment complete."
