@@ -4,11 +4,11 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hi, World!"}
+    return {"message": "yup, World!"}
 
 @app.get("/version")
 async def version():
-    return {"version": "3.0.0"}
+    return {"version": "4.0.0"}
 
 import uvicorn
 
