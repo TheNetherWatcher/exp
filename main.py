@@ -4,7 +4,7 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "hello, World!"}
+    return {"message": "hello, world :)"}
 
 @app.get("/version")
 async def version():
